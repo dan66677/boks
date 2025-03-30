@@ -9,9 +9,9 @@ import (
 
 const (
     host    = "localhost"
-	port     = 5432
+	port     = 
 	user     = "postgres"
-	password = "1234"
+	password = ""
 	dbname   = "postgres"
 )
 

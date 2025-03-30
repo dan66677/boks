@@ -11,9 +11,9 @@ func main() {
 
 	db, err := bd.NewPosgresDB(bd.Config{
 		Host:     "localhost",
-		Port:     "8008",
+		Port:     "",
 		Username: "postgres",
-		Password: "1234",
+		Password: "",
 		DBName:   "postgres",
 		SSLMode:  "disable",
 	})
