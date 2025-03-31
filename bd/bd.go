@@ -1,36 +1,31 @@
-package main 
+package bd
 
 import (
-    "fmt"
-    "database/sql"
-    "log"
-    _ "github.com/lib/pq" 
+	"fmt"
+
+	"github.com/jmoiron/sqlx"
 )
 
-const (
-    host    = "localhost"
-	port     = 
-	user     = "postgres"
-	password = ""
-	dbname   = "postgres"
-)
+type Config struct {
+	Host     string
+	Port     string
+	Username string
+	Password string
+	DBName   string
+	SSLMode  string
+}
 
-var db *sql.DB
+func InitDB(cfg Config) (*sqlx.DB, error) {
+	db, err := sqlx.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
+		cfg.Host, cfg.Port, cfg.Username, cfg.DBName, cfg.Password, cfg.SSLMode))
+	if err != nil {
+		return nil, err
+	}
 
-func InitDB() {
-    psq := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+	err = db.Ping()
+	if err != nil {
+		return nil, err
+	}
 
-    var err error
-    db, err := sql.Open("postgres", psq)
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    err = db.Ping()
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    fmt.Println("Successfully connected to the database")
+	return db, nil
 }
